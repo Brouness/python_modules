@@ -3,6 +3,7 @@ class Plant:
 		self.name = name
 		self.height = height
 		self.age = age
+		print(f"Created: {name} ({height}cm, {age} days)")
 	def grow(self) -> None:
 		self.height += 1
 	def age_grow(self) -> None:
@@ -12,12 +13,8 @@ def ft_plant_factory() -> None:
 	print("=== Plant Factory Output ===")
 	plant_data = [("Rose", 25, 30), ("Oak", 200, 365), ("Cactus", 5, 90),
 		("Sunflower", 80, 45), ("Fern", 15, 120)]
-	l = []
-	for name, height, age, in plant_data:
-		plant = Plant(name, height, age)
-		l.append(plant)
-		print(f"{plant.name}, {plant.height}, {plant.age}")
-		l = [1, 2, 3 , 4, 5]
-for x in l:
-	print(x)
+	for data in plant_data:
+		Plant_add = Plant(data[0], data[1], data[2])
+	print(f"\nTotal plants created: {Plant_add.counter}")
+
 ft_plant_factory()
