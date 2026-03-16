@@ -135,7 +135,7 @@ def ft_garden_analytics() -> None:
     youness.garden_report("Alice")
     stats = GardenManager.GardenStats(youness.gardens["Alice"])
     print(
-        f"Plants added: "
+        f"\nPlants added: "
         f"{stats.count_plants()}, Total growth: {stats.total_growth()}cm"
     )
     distribution = stats.count_type()
@@ -145,7 +145,7 @@ def ft_garden_analytics() -> None:
         f"{distribution['flowering']} flowering, "
         f"{distribution['prize']} prize flowers"
     )
-    print("Height validation test:", GardenManager.validate_height(10))
+    print("\nHeight validation test:", GardenManager.validate_height(10))
     alice_score = youness.garden_score("Alice")
     bob_score = youness.garden_score("Bob")
     print(f"Garden scores - Alice: {alice_score}, Bob: {bob_score}")
