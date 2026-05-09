@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, List
 
 
 class DataProcessor(ABC):
 
     def __init__(self) -> None:
-        self._storage = []
+        self._storage: List[str] = []
         self._counter = 0
 
     @abstractmethod
@@ -78,8 +78,9 @@ class LogProcessor(DataProcessor):
         if isinstance(data, dict):
             my_keys = data.keys()
             my_value = data.values()
-            if all(isinstance(key, str) for key in my_keys) and all(isinstance(value, str) for value in my_value):
-                    return True
+            if (all(isinstance(key, str) for key in my_keys)
+               and all(isinstance(value, str) for value in my_value)):
+                return True
             else:
                 return False
 
@@ -91,7 +92,8 @@ class LogProcessor(DataProcessor):
                     my_value = singel_dic.values()
                 else:
                     return False
-                if all(isinstance(key, str) for key in my_keys) and all(isinstance(value, str) for value in my_value):
+                if (all(isinstance(key, str) for key in my_keys)
+                   and all(isinstance(value, str) for value in my_value)):
                     continue
                 else:
                     x += 1
@@ -103,20 +105,17 @@ class LogProcessor(DataProcessor):
             return False
 
     def ingest(self, data: Any) -> None:
-        try:
-            if not self.validate(data):
-                raise ValueError("Invalid data!")
-            elif isinstance(data, dict):
-                for key, value in data.items():
-                    my_list = key, value
-                    self._storage.extend(my_list)
-            elif isinstance(data, list):
-                for element in data:
-                    for key, value in element.items():
-                        my_list = key, value
-                        self._storage.extend(my_list)
-        except ValueError:
-            raise ValueError("Improper numeric data")
+        if not self.validate(data):
+            raise ValueError("Improper log data")
+
+        def format_log(d: dict[str, str]) -> str:
+            return f"{d['log_level']}: {d['log_message']}"
+
+        if isinstance(data, dict):
+            self._storage.append(format_log(data))
+        else:
+            for d in data:
+                self._storage.append(format_log(d))
 
 
 def Testing_Numeric_data() -> None:
@@ -179,6 +178,7 @@ def main() -> None:
     Testing_Numeric_data()
     Testing_Text_Processor()
     Testing_Log_Processor()
+
 
 if __name__ == "__main__":
     main()
